@@ -1,28 +1,44 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <FloorItem
+      v-for="floor in this.$store.state.floors"
+      :key="floor"
+      :floor="floor"
+    ></FloorItem>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import FloorItem from "@/components/FloorItem.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    FloorItem,
   }
-}
+};
 </script>
 
 <style>
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column-reverse;
+  height: 100vh;
 }
 </style>
