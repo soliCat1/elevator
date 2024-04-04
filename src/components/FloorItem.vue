@@ -1,7 +1,6 @@
 <template>
   <div class="floor">
-    <div
-      class="shaft"
+    <div class="shaft"
       :class="{ elevator: this.$store.state.position === floor,
       delay: this.$store.state.delay && this.$store.state.position === floor}">
       <div class="monitor" v-if="this.$store.state.position === floor"
@@ -27,7 +26,7 @@ export default {
       type: Number,
       required: true,
     },
-  },
+  }
 };
 </script>
 

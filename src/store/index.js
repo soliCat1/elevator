@@ -1,32 +1,41 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: () => ({
     floors: 5,
     position: 1,
     delay: false,
-    id: 0,
     targetFloor: '',
-    movement: ''
+    movement: '',
+    floorQueue: [],
   }),
   mutations: {
     moveElevator: (state, floor) => {
-      state.position = floor
+      state.position = floor;
     },
     setDelayState: (state, value) => {
-      state.delay = value
-    },
-    setId: (state) => {
-      state.id++
+      state.delay = value;
     },
     setTargetFloor: (state, value) => {
-      state.targetFloor = value
+      state.targetFloor = value;
     },
     setMovementState: (state, value) => {
-      state.movement = value
-    }
+      state.movement = value;
+    },
+    addToFloorQueue: (state, value) => {
+      if (!state.floorQueue.includes(value)) {
+        state.floorQueue.push(value);
+        localStorage.setItem('queue', state.floorQueue);
+      }
+      console.log(state.floorQueue);
+    },
+    deleteFromFloorQueue: (state) => {
+      state.floorQueue.shift();
+      localStorage.setItem('queue', state.floorQueue);
+      console.log(state.floorQueue);
+    },
   },
 });
