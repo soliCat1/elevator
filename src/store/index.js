@@ -14,28 +14,26 @@ export const store = new Vuex.Store({
   }),
   mutations: {
     moveElevator: (state, floor) => {
-      state.position = floor;
+      state.position = floor
     },
     setDelayState: (state, value) => {
-      state.delay = value;
+      state.delay = value
     },
     setTargetFloor: (state, value) => {
-      state.targetFloor = value;
+      state.targetFloor = value
     },
     setMovementState: (state, value) => {
-      state.movement = value;
+      state.movement = value
     },
     addToFloorQueue: (state, value) => {
       if (!state.floorQueue.includes(value)) {
-        state.floorQueue.push(value);
-        localStorage.setItem('queue', state.floorQueue);
+        state.floorQueue.push(value)
+        localStorage.setItem('queue', state.floorQueue)
       }
-      console.log(state.floorQueue);
     },
     deleteFromFloorQueue: (state) => {
-      state.floorQueue.shift();
-      localStorage.setItem('queue', state.floorQueue);
-      console.log(state.floorQueue);
+      state.floorQueue.shift()
+      localStorage.setItem('queue', state.floorQueue)
     },
   },
 });

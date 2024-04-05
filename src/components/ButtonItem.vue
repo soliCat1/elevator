@@ -2,7 +2,7 @@
   <button
     class="btn"
     @click="changeFloor"
-    :class="{ active: floor === this.$store.state.targetFloor }"
+    :class="{ active: this.$store.state.floorQueue.includes(floor) }"
   ></button>
 </template>
 
@@ -13,11 +13,6 @@ export default {
       type: Number,
       required: true,
     },
-  },
-  data() {
-    return {
-      interval: null,
-    };
   },
   methods: {
     changeFloor() {
@@ -33,22 +28,20 @@ export default {
       ) {
         return
       }
-
       if (this.$store.state.movement) {
-        this.$store.commit('addToFloorQueue', this.$props.floor);
-        return;
+        this.$store.commit('addToFloorQueue', this.$props.floor)
+        return
       }
-      this.$store.commit('addToFloorQueue', this.$props.floor);
-      this.moveElevator();
+      this.$store.commit('addToFloorQueue', this.$props.floor)
+      this.moveElevator()
     },
     moveElevator() {
-      this.interval = setInterval(() => {
+      setTimeout(() => {
         if (this.$store.state.floorQueue.length === 0) {
-          clearInterval(this.interval);
-          return;
+          clearInterval(this.interval)
+          return
         }
-
-        const nextFloor = this.$store.state.floorQueue[0];
+        const nextFloor = this.$store.state.floorQueue[0]
         if (
           nextFloor !== this.$store.state.position &&
           !this.$store.state.delay
@@ -64,39 +57,33 @@ export default {
               ? this.$store.state.position + 1
               : this.$store.state.position - 1
           );
+          this.moveElevator();
         } else if (
           nextFloor === this.$store.state.position &&
           !this.$store.state.delay
         ) {
-          this.$store.commit('setTargetFloor', '');
-          this.$store.commit('setMovementState', '');
-          this.$store.commit('setDelayState', true);
+          this.$store.commit('setTargetFloor', '')
+          this.$store.commit('setMovementState', '')
+          this.$store.commit('setDelayState', true)
           setTimeout(() => {
-            this.$store.commit('setDelayState', false);
-            this.$store.commit('deleteFromFloorQueue');
-            this.moveElevator();
-          }, 3000);
+            this.$store.commit('setDelayState', false)
+            this.$store.commit('deleteFromFloorQueue')
+            this.moveElevator()
+          }, 3000)
         }
-      }, 1000);
-      setTimeout(
-        () => clearInterval(this.interval),
-        (Math.abs(this.$store.state.position - this.$props.floor) + 3) * 1000
-      );
+      }, 1000)
     },
   },
   mounted() {
-    const queue = localStorage.getItem('queue');
+    const queue = localStorage.getItem('queue')
     if (queue) {
-      const queueArr = queue.split(',').map((item) => parseInt(item));
+      const queueArr = queue.split(',').map((item) => parseInt(item))
       for (const item of queueArr) {
-        this.$store.commit('addToFloorQueue', item);
+        this.$store.commit('addToFloorQueue', item)
       }
-      this.moveElevator();
+      this.moveElevator()
     }
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
-  },
+  }
 };
 </script>
 
